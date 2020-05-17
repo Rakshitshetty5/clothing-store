@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 
+import { connect } from 'react-redux';
+
 import './header.styles.scss';
 
 import { ReactComponent as Logo } from '../../assets/crown.svg'
@@ -31,4 +33,15 @@ const Header = ({currentUser}) => (
     </div>
 )
 
-export default Header;
+//the below pattern is used to get properties(data) required from reducers
+
+const mapStateToprops = (state) => ({
+    // object return from this function
+    // name of property will be actual property thatwe want to pass
+    //value will be the value
+
+    currentUser : state.user.currentUser //(rootreducer (user) => userReducer(currentUser))
+})
+
+
+export default connect(mapStateToprops)(Header);
