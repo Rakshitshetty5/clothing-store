@@ -12,7 +12,7 @@ import { auth } from '../../firebase/firebase.utils';
 import CartIcon from '../cart-icon/cart-icon.component'
 import CartDropdown from '../cart-dropdown/cart-dropdown.component'
 
-const Header = ({currentUser}) => (
+const Header = ({currentUser , hidden}) => (
     <div className='header'>
         <Link className = "logo-conatiner"  to="/">
             <Logo className="logo" />
@@ -32,7 +32,11 @@ const Header = ({currentUser}) => (
             }
              <CartIcon />
         </div>
-        <CartDropdown />
+        {
+            hidden ? null:
+            <CartDropdown />
+        }
+       
 
 
     </div>
@@ -40,12 +44,13 @@ const Header = ({currentUser}) => (
 
 //the below pattern is used to get properties(data) required from reducers
 
-const mapStateToprops = (state) => ({
-    // object return from this function
-    // name of property will be actual property thatwe want to pass
-    //value will be the value
+const mapStateToprops = ({user : {currentUser}, cart: {hidden}}) => ({
+   //advanced way of destructuring
+   //user and cart is taken(destructured) from state
+   // then currentUser and hidden is destructured of user and state
 
-    currentUser : state.user.currentUser //(rootreducer (user) => userReducer(currentUser))
+    currentUser,
+    hidden 
 })
 
 
