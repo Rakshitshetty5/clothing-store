@@ -2,6 +2,7 @@ export const addItemToCart = (cartItems, cartItemToAdd) => {
 
     //checking whether new item alredy present in cart.
     const exsitingCartItem = cartItems.find(
+        // find returns the first element that satisfies a condition
         cartItem => cartItem.id === cartItemToAdd.id
     )
 
@@ -9,12 +10,12 @@ export const addItemToCart = (cartItems, cartItemToAdd) => {
     if(exsitingCartItem){
         return cartItems.map(cartItem => 
             cartItem.id === cartItemToAdd.id ?
-                {...cartItem, quantitiy: cartItem.quantitiy + 1 }
+                {...cartItem, quantity: cartItem.quantity + 1 }
                 :
                 cartItem
             )
     }
 
-    return [...cartItems, {...cartItemToAdd, quantitiy: 1}]
+    return [...cartItems, {...cartItemToAdd, quantity: 1}]
 }
 

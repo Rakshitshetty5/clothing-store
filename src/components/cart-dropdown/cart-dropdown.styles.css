@@ -15,6 +15,7 @@
   height: 240px;
   display: flex;
   flex-direction: column;
+  overflow: scroll;
 }
 .cart-dropdown button {
   margin-top: auto;
