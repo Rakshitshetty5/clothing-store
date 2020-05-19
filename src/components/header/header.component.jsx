@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 
 import { connect } from 'react-redux';
-
+import { createStructuredSelector } from 'reselect'
 import './header.styles.scss';
 
 import { ReactComponent as Logo } from '../../assets/crown.svg'
@@ -11,6 +11,8 @@ import { auth } from '../../firebase/firebase.utils';
 
 import CartIcon from '../cart-icon/cart-icon.component'
 import CartDropdown from '../cart-dropdown/cart-dropdown.component'
+import { selectCartHidden } from '../../redux/cart/cart.selectors'
+import { selectCurrentUser } from '../../redux/user/user.selector'
 
 const Header = ({currentUser , hidden}) => (
     <div className='header'>
@@ -44,13 +46,16 @@ const Header = ({currentUser , hidden}) => (
 
 //the below pattern is used to get properties(data) required from reducers
 
-const mapStateToprops = ({user : {currentUser}, cart: {hidden}}) => ({
-   //advanced way of destructuring
-   //user and cart is taken(destructured) from state
-   // then currentUser and hidden is destructured of user and state
+const mapStateToprops = createStructuredSelector({
 
-    currentUser,
-    hidden 
+   /*
+    currentUser : selectCurrentUser(state),
+    hidden : selectCartHidden(state)
+    */ //this is similar to below due to 
+    //createStructuredSElector we have access to top level state which directly gets passed down
+
+    currentUser : selectCurrentUser,
+    hidden: selectCartHidden
 })
 
 
