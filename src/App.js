@@ -27,7 +27,7 @@ class App extends React.Component {
 
   componentDidMount(){
 
-    const {setCurrentUser} = this.props;
+    const { setCurrentUser } = this.props;
     //console.log(setCurrentUser) this contains user => dispatch(setCurrentUser(user)) //the setCurrentUser passed in dispatch is the action imported above
 
     this.unsubscribeFromAuth = 
