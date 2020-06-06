@@ -4,7 +4,6 @@ import './App.css';
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
-import { setCurrentUser } from './redux/user/user.actions' 
 import { createStructuredSelector } from 'reselect'
 
 
@@ -18,8 +17,8 @@ import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up
 
 import CheckoutPage from './pages/checkout/checkout.component'
 
+import { setCurrentUser } from './redux/user/user.actions' 
 import { selectCurrentUser } from './redux/user/user.selector'
-
 
 
 class App extends React.Component {
@@ -43,11 +42,7 @@ class App extends React.Component {
               })
          }) //thid data is dispacted to actions.js and according to type changes occur
       }
-      
-      else{
-        setCurrentUser(userAuth); //userAuth is null
-
-      }
+      setCurrentUser(userAuth); //userAuth is null
     })
   }
 
@@ -87,7 +82,10 @@ const mapStateToProps = ({user}) => (
 // above code is same as below with memoization. header has furether explanation 
 
 const mapStateToProps = createStructuredSelector(
-  {currentUser : selectCurrentUser}
+  {
+    currentUser : selectCurrentUser,
+  
+  }
 ) 
 
 const mapDispatchToProps = dispatch => ({
