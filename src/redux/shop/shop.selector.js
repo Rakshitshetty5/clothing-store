@@ -12,14 +12,14 @@ export const shopCollectionSelect = createSelector(
 
 export const selectCollectionForPreview = createSelector(
     [shopCollectionSelect],
-    collections => Object.keys(collections).map(key => collections[key])
+    collections => collections ? Object.keys(collections).map(key => collections[key]) : []
 )
 
 //currying
 export const selectCollection = collectionUrlParam => 
     createSelector(
         [shopCollectionSelect],
-        collections => collections[collectionUrlParam]
+        collections => collections ? collections[collectionUrlParam] : null
         )
 
     
