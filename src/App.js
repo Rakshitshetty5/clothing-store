@@ -30,6 +30,7 @@ class App extends React.Component {
     //console.log(setCurrentUser) this contains user => dispatch(setCurrentUser(user)) //the setCurrentUser passed in dispatch is the action imported above
 
     this.unsubscribeFromAuth = 
+    
     auth.onAuthStateChanged(async userAuth => {
       //this.setState({currentUser : user});
       if(userAuth){
