@@ -1,4 +1,4 @@
-import { takeLatest, put, call  } from "redux-saga/effects";
+import { takeLatest, put, call , all } from "redux-saga/effects";
 
 
 import { firestore, convertCollectionsSnapshotToMap } from "./../../firebase/firebase.utils";
@@ -31,4 +31,8 @@ export function* fetchCollectionStart(){
         ShopActionTypes.FETCH_COLLECTIONS_START,//fetchCollectionStart decorator keeps on listening for FETCH_C_S action and when it comes it executes fetchCollectionAsyn
         fetchCollectionAsync
     );
+}
+
+export function* shopSagas(){
+    yield all([call(fetchCollectionStart)])
 }

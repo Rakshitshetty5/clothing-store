@@ -17,34 +17,17 @@ import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up
 
 import CheckoutPage from './pages/checkout/checkout.component'
 
-import { setCurrentUser } from './redux/user/user.actions' 
 import { selectCurrentUser } from './redux/user/user.selector'
-
+import { checkUserSession } from './redux/user/user.actions'
+import { dispatch } from 'rxjs/internal/observable/pairs';
 
 class App extends React.Component {
   unsubscribeFromAuth = null;
 
   componentDidMount(){
-
-    const { setCurrentUser } = this.props;
-    //console.log(setCurrentUser) this contains user => dispatch(setCurrentUser(user)) //the setCurrentUser passed in dispatch is the action imported above
-
-    this.unsubscribeFromAuth = 
+    const { checkUserSession } = this.props;
+    checkUserSession();
     
-    auth.onAuthStateChanged(async userAuth => {
-      //this.setState({currentUser : user});
-      if(userAuth){
-        const userRef = await createUserProfileDocument(userAuth); 
-
-        userRef.onSnapshot(snapShot => {
-         setCurrentUser({
-                id: snapShot.id,
-                ...snapShot.data()
-              })
-         }) //thid data is dispacted to actions.js and according to type changes occur
-      }
-      setCurrentUser(userAuth); //userAuth is null
-    })
   }
 
   componentWillUnmount(){
@@ -89,8 +72,8 @@ const mapStateToProps = createStructuredSelector(
   }
 ) 
 
-const mapDispatchToProps = dispatch => ({
-  setCurrentUser: user => dispatch(setCurrentUser(user))
-
+const dispatchStateToProps = dispatch => ({
+  checkUserSession : () => dispatch(checkUserSession())
 })
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+export default connect(mapStateToProps, dispatchStateToProps)(App);
