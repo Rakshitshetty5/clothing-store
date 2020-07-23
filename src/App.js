@@ -1,25 +1,35 @@
-import React from 'react';
+import React, { lazy , Suspense} from 'react';
 import './App.css';
 
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux';
-import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 import { createStructuredSelector } from 'reselect'
 
+import Spinner from './components/spinner/spinner.components'
 
-import HomePage from './pages/homepage/homepage.component';
+// import HomePage from './pages/homepage/homepage.component';
 
-import ShopPage from './pages/shop/shop.component';
+// import ShopPage from './pages/shop/shop.component';
 
 import Header from './components/header/header.component'
 
-import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component'
+// import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component'
 
-import CheckoutPage from './pages/checkout/checkout.component'
+// import CheckoutPage from './pages/checkout/checkout.component'
 
 import { selectCurrentUser } from './redux/user/user.selector'
 import { checkUserSession } from './redux/user/user.actions'
-import { dispatch } from 'rxjs/internal/observable/pairs';
+
+
+//lazy loading performance optimization(this is async use suspense in route with a fallback)
+const HomePage = lazy(() => import('./pages/homepage/homepage.component'));
+const ShopPage = lazy(() => import('./pages/shop/shop.component'));
+const CheckoutPage = lazy(() => import('./pages/checkout/checkout.component'));
+const SignInAndSignUpPage = lazy(() => import('./pages/sign-in-and-sign-up/sign-in-and-sign-up.component'));
+
+
+
+
 
 class App extends React.Component {
   unsubscribeFromAuth = null;
@@ -39,20 +49,22 @@ class App extends React.Component {
       <div>
         <Header />
         <Switch>
-        <Route exact path='/' component={HomePage}/>
-        <Route path='/shop' component={ShopPage} />
-        <Route 
-          exact 
-          path='/signin' 
-          render={() => 
-            this.props.currentUser ? (
-              <Redirect to='/' />
-            ) : (
-              <SignInAndSignUpPage/>
-              )
-            } 
-          />
-        <Route exact path='/checkout' component={CheckoutPage}/>
+          <Suspense fallback = {<Spinner />}>
+            <Route exact path='/' component={HomePage}/>
+            <Route path='/shop' component={ShopPage} />
+            <Route 
+              exact 
+              path='/signin' 
+              render={() => 
+                this.props.currentUser ? (
+                  <Redirect to='/' />
+                ) : (
+                  <SignInAndSignUpPage/>
+                  )
+                } 
+              />
+            <Route exact path='/checkout' component={CheckoutPage}/>
+          </Suspense>
         </Switch>
       </div>
     );
