@@ -5,6 +5,8 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect'
 
+import ErrorBoundary from './components/error-boundary/error-boundary.component'
+
 import Spinner from './components/spinner/spinner.components'
 
 // import HomePage from './pages/homepage/homepage.component';
@@ -49,22 +51,24 @@ class App extends React.Component {
       <div>
         <Header />
         <Switch>
-          <Suspense fallback = {<Spinner />}>
-            <Route exact path='/' component={HomePage}/>
-            <Route path='/shop' component={ShopPage} />
-            <Route 
-              exact 
-              path='/signin' 
-              render={() => 
-                this.props.currentUser ? (
-                  <Redirect to='/' />
-                ) : (
-                  <SignInAndSignUpPage/>
-                  )
-                } 
-              />
-            <Route exact path='/checkout' component={CheckoutPage}/>
-          </Suspense>
+          <ErrorBoundary>
+            <Suspense fallback = {<Spinner />}>
+              <Route exact path='/' component={HomePage}/>
+              <Route path='/shop' component={ShopPage} />
+              <Route 
+                exact 
+                path='/signin' 
+                render={() => 
+                  this.props.currentUser ? (
+                    <Redirect to='/' />
+                  ) : (
+                    <SignInAndSignUpPage/>
+                    )
+                  } 
+                />
+              <Route exact path='/checkout' component={CheckoutPage}/>
+            </Suspense>
+          </ErrorBoundary>
         </Switch>
       </div>
     );
